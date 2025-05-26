@@ -7,39 +7,41 @@ let bufferSourceCorte;
 let corteGainNode;
 let arranqueGainNode;
 let corteBuffer;
-let isArranqueIniciado = false;
+let arranqueBuffer;
+let isAudioInitialized = false;
 
-// Reproducir sonido de arranque en loop perfecto
-async function reproducirArranqueLoop() {
+// Inicializar AudioContext y buffers al primer toque
+async function inicializarAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  const response = await fetch("arranque.mp3");
-  const arrayBuffer = await response.arrayBuffer();
-  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+  // Cargar arranque
+  const arranqueRes = await fetch("arranque.mp3");
+  const arranqueArrayBuffer = await arranqueRes.arrayBuffer();
+  arranqueBuffer = await audioCtx.decodeAudioData(arranqueArrayBuffer);
 
+  // Cargar corte
+  const corteRes = await fetch("corte.mp3");
+  const corteArrayBuffer = await corteRes.arrayBuffer();
+  corteBuffer = await audioCtx.decodeAudioData(corteArrayBuffer);
+
+  isAudioInitialized = true;
+
+  // Reproducir arranque en loop bajo
   bufferSourceArranque = audioCtx.createBufferSource();
-  bufferSourceArranque.buffer = audioBuffer;
+  bufferSourceArranque.buffer = arranqueBuffer;
   bufferSourceArranque.loop = true;
 
   arranqueGainNode = audioCtx.createGain();
-  arranqueGainNode.gain.value = 0.6; // volumen bajo
+  arranqueGainNode.gain.value = 0.6;
 
   bufferSourceArranque.connect(arranqueGainNode).connect(audioCtx.destination);
   bufferSourceArranque.start(0);
 }
 
-// Cargar el sonido de corte y preparar el buffer
-async function cargarCorte() {
-  const response = await fetch("corte.mp3");
-  const arrayBuffer = await response.arrayBuffer();
-  corteBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-}
-
-// Reproducir sonido de corte con loop mientras se presiona
+// Reproducir sonido de corte en loop
 function reproducirCorteLoop() {
   if (!corteBuffer || !audioCtx) return;
 
-  // Detener si hay un sonido anterior en reproducción
   if (bufferSourceCorte) {
     bufferSourceCorte.stop(0);
     bufferSourceCorte.disconnect();
@@ -51,13 +53,13 @@ function reproducirCorteLoop() {
   bufferSourceCorte.loop = true;
 
   corteGainNode = audioCtx.createGain();
-  corteGainNode.gain.value = 1.0; // volumen más alto
+  corteGainNode.gain.value = 1.0;
 
   bufferSourceCorte.connect(corteGainNode).connect(audioCtx.destination);
   bufferSourceCorte.start(0);
 }
 
-// Detener el sonido de corte
+// Detener sonido de corte
 function detenerCorteLoop() {
   if (bufferSourceCorte) {
     bufferSourceCorte.stop(0);
@@ -66,14 +68,15 @@ function detenerCorteLoop() {
   }
 }
 
-// Función para iniciar el sonido y animación al presionar
+// Iniciar sonido y animación
 function startCorte() {
+  if (!isAudioInitialized) return;
   reproducirCorteLoop();
   motoImg.classList.add("vibrando");
   document.body.classList.add("fondo-activo");
 }
 
-// Función para detener sonido, animación y fondo
+// Detener todo
 function stopCorte() {
   detenerCorteLoop();
   motoImg.classList.remove("vibrando");
@@ -85,7 +88,7 @@ btn.addEventListener("mousedown", startCorte);
 btn.addEventListener("mouseup", stopCorte);
 btn.addEventListener("mouseleave", stopCorte);
 
-// Eventos touch (móvil)
+// Eventos touch (móviles)
 btn.addEventListener("touchstart", (e) => {
   e.preventDefault();
   startCorte();
@@ -110,14 +113,12 @@ window.addEventListener("click", (event) => {
   }
 });
 
-// Overlay inicial para iniciar sonido sin cortes
+// Overlay inicial
 const tapOverlay = document.getElementById("tapToStart");
 
 tapOverlay.addEventListener("click", async () => {
-  if (!isArranqueIniciado) {
-    await reproducirArranqueLoop();
-    await cargarCorte();
-    isArranqueIniciado = true;
+  if (!isAudioInitialized) {
+    await inicializarAudio();
     tapOverlay.classList.add("hidden");
   }
 });
