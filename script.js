@@ -39,6 +39,13 @@ async function cargarCorte() {
 function reproducirCorteLoop() {
   if (!corteBuffer || !audioCtx) return;
 
+  // Detener si hay un sonido anterior en reproducción
+  if (bufferSourceCorte) {
+    bufferSourceCorte.stop(0);
+    bufferSourceCorte.disconnect();
+    bufferSourceCorte = null;
+  }
+
   bufferSourceCorte = audioCtx.createBufferSource();
   bufferSourceCorte.buffer = corteBuffer;
   bufferSourceCorte.loop = true;
