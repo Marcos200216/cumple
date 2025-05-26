@@ -32,7 +32,21 @@ h1 {
 
 
 
+#btnCorte {
+  background-color: #18098a;
+  border: none;
+   padding: 12px 25px;
+  font-size: 1em;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 3;
+}
 
+#btnCorte:active {
+  background-color: #07022e;
+}
 
 @keyframes vibrar {
   0% { transform: rotate(-1deg); }
@@ -46,10 +60,24 @@ h1 {
   animation: vibrar 0.1s infinite;
 }
 body.fondo-activo {
-  background: radial-gradient(circle, #ff0000 0%, #000000 100%);
+  background: radial-gradient(circle, #070370 0%, #000000 100%);
   transition: background 0.4s ease;
 }
+#btnVerMas {
+  background-color:#18098a;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1em;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
 
+#btnVerMas:hover {
+  background-color: #07022e;
+}
 
 /* Modal */
 .modal {
@@ -100,29 +128,4 @@ body.fondo-activo {
 
 .close:hover {
   color: #fff;
-}
-.btn-moto {
-  background-color: #1a1a1a; /* Fondo oscuro estilo motociclista */
-  border: 2px solid #ff0000; /* Rojo fuerte */
-  padding: 15px 30px;
-  font-size: 1.2em;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  margin: 10px 5px;
-  font-family: 'Arial Black', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 0 10px #ff000044;
-}
-
-.btn-moto:hover {
-  background-color: #2b2b2b;
-  transform: scale(1.05);
-}
-
-.btn-moto:active {
-  background-color: #ff0000;
-  color: #000;
 }
