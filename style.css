@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  position: relative;
+}
+
+.container {
+  max-width: 90%;
+  position: relative;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.moto-img {
+  width: 80%;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+#btnCorte {
+  background-color: #ff0000;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 3;
+}
+
+#btnCorte:active {
+  background-color: #cc0000;
+}
+
+@keyframes vibrar {
+  0% { transform: rotate(-1deg); }
+  25% { transform: rotate(1deg); }
+  50% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(-1deg); }
+}
+
+.vibrando {
+  animation: vibrar 0.1s infinite;
+}
+body.fondo-activo {
+  background: radial-gradient(circle, #ff0000 0%, #000000 100%);
+  transition: background 0.4s ease;
+}
+#btnVerMas {
+  background-color: #00bcd4;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1em;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
+
+#btnVerMas:hover {
+  background-color: #0097a7;
+}
+
+/* Modal */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 999;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+  background-color: #222;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  color: white;
+  border-radius: 10px;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 0 30px rgba(16, 3, 3, 0.6);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #f0dfe4;
+}
+
+.modal-content p {
+  font-size: 1.1em;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #fff;
+}
